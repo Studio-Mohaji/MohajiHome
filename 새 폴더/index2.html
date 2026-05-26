@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>모하지 - RouletteCircus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300;400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #ffffff;          /* 다시 깨끗한 흰색 배경 */
+      --text: #111111;        /* 어두운 텍스트 */
+      --text-muted: #66666c;  /* 흐린 텍스트 */
+      --card-bg: #f9f9f8;     /* 연한 그레이 카드 배경 */
+      --border: #e8e8e6;       /* 라이트 모드용 부드러운 보더 라인 */
+      --nav-w: 72px;
+      --yellow: #f5c842;
+      --yellow-soft: #fdf6d8;
+      --red-accent: #ae2525;  /* 긴장감을 주는 다크 레드 포인트 */
+      --red-soft: #fbebeb;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── 오른쪽 세로 내비게이션 (틀 및 라이트모드 복원) ── */
+    .sidenav {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: var(--nav-w);
+      height: 100vh;
+      background: #fff;
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 0;
+      gap: 16px;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      overflow: hidden;
+    }
+
+    .nav-btn:hover, .nav-btn.active {
+      background: var(--yellow-soft);
+      box-shadow: 0 4px 12px rgba(245, 200, 66, 0.2);
+    }
+
+    .nav-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── 메인 콘텐츠 영역 ── */
+    .main {
+      margin-right: var(--nav-w);
+      flex: 1;
+    }
+
+    .content-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+    }
+
+    /* ── 상단 헤더 영역 (RouletteCircus 변경) ── */
+    .game-header {
+      text-align: center;
+      margin-bottom: 60px;
+      padding-top: 40px;
+    }
+
+    .game-title {
+      font-family: 'Gmarket Sans', sans-serif;
+      font-size: clamp(36px, 6vw, 54px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .game-subtitle {
+      font-size: 16px;
+      color: var(--red-accent);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      margin-bottom: 32px;
+    }
+
+    /* ── 메인 배너 프레임 연출 ── */
+    .hero-banner-wrap {
+      width: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.06);
+      margin-bottom: 80px;
+    }
+
+    .hero-banner-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── 스토리 흐름 섹션 ── */
+    .story-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 90px;
+      margin-bottom: 120px;
+    }
+
+    .story-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .story-desc {
+      font-size: 17px;
+      color: #333338;
+      max-width: 680px;
+      margin-bottom: 24px;
+      word-break: keep-all;
+    }
+
+    .story-desc em {
+      font-style: normal;
+      font-weight: 700;
+      color: var(--red-accent);
+    }
+
+    .story-desc.highlight-box {
+      background: var(--red-soft);
+      border: 1px solid rgba(174, 37, 37, 0.2);
+      padding: 20px 32px;
+      border-radius: 16px;
+      color: var(--red-accent);
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .story-gif {
+      width: 100%;
+      max-width: 680px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.05);
+    }
+
+    .circus-quote {
+      margin-top: 20px;
+      padding: 32px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      width: 100%;
+      max-width: 680px;
+    }
+
+    .circus-quote p {
+      font-size: 16px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ── 기능 리스트 섹션 ── */
+    .section-title {
+      font-family: 'Gmarket Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 20px;
+      background: var(--red-accent);
+      border-radius: 2px;
+    }
+
+    .section-title.future::before {
+      background: var(--yellow);
+    }
+
+    .grid-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 16px;
+      margin-bottom: 80px;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      font-size: 15px;
+      color: var(--text);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-2px);
+      border-color: #ccc;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.04);
+    }
+
+    .badge-check {
+      background: rgba(39, 174, 96, 0.1);
+      color: #27ae60;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .badge-future {
+      background: var(--yellow-soft);
+      color: #7a5f00;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── 푸터 (틀 및 라이트모드 유지) ── */
+    footer {
+      padding: 48px 80px;
+      border-top: 1px solid var(--border);
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-right: var(--nav-w);
+    }
+
+    .footer-logo {
+      font-family: 'Gmarket Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ── 반응형 레이아웃 ── */
+    @media (max-width: 900px) {
+      .sidenav { display: none; }
+      .main { margin-right: 0; }
+      footer { flex-direction: column; gap: 12px; padding: 40px 24px; text-align: center; margin-right: 0; }
+      .content-container { padding: 40px 20px 60px; }
+      .story-flow { gap: 60px; }
+      .grid-layout { grid-template-columns: 1fr; }
+
+      .mobile-nav {
+        display: flex !important;
+      }
+      .main {
+        padding-top: 56px;
+      }
+    }
+
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 100;
+    }
+
+    .mobile-nav-logo {
+      font-family: 'Gmarket Sans', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .mobile-nav-links {
+      display: flex;
+      gap: 4px;
+    }
+
+    .mobile-nav-links a {
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .mobile-nav-links a:hover {
+      background: var(--yellow-soft);
+      color: #7a5f00;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="mobile-nav">
+    <div class="mobile-nav-logo">모하지</div>
+    <div class="mobile-nav-links">
+      <a href="index.html">🏠 홈</a>
+      <a href="about.html">소개</a>
+      <a href="works.html">작업물</a>
+    </div>
+  </nav>
+
+  <nav class="sidenav">
+    <a href="index.html" class="nav-btn" title="홈">
+      <img src="logo.png" alt="홈">
+    </a>
+    <a href="index2.html" class="nav-btn active" title="로고">
+      <img src="Rogo512x512.png" alt="로고">
+    </a>
+  </nav>
+
+  <div class="main">
+    <div class="content-container">
+      
+      <header class="game-header">
+        <h1 class="game-title">RouletteCircus</h1>
+        <p class="game-subtitle">MOHAJI GAMES PROJECT</p>
+      </header>
+
+      <div class="hero-banner-wrap">
+        <img src="960462.png" alt="Game Main Visual">
+      </div>
+
+      <div class="story-flow">
+        
+        <div class="story-block">
+          <p class="story-desc">
+            최대 4인이 참가하는 잔혹한 <em>러시안 룰렛 데스매치</em>.<br>
+            당신은 이제 이 위험한 게임의 참가자가 되었습니다.
+          </p>
+          <img class="story-gif" src="4people.gif" alt="4 Players">
+        </div>
+
+        <div class="story-block">
+          <p class="story-desc">
+            당신과 다른 참가자들의 운명은 지급받은 카드, 그리고 <em>오직 당신의 운</em>에 달려 있습니다.<br>
+            각 카드가 가진 각기 다른 능력을 활용해 보십시오.
+          </p>
+          <p class="story-desc">
+            운이 당신을 몰아세우더라도, 과감한 전략과 결단으로 운명에 맞서 싸우십시오.
+          </p>
+          <img class="story-gif" src="SwitchCard.gif" alt="Switch Card Mechanic">
+        </div>
+
+        <div class="story-block">
+          <p class="story-desc highlight-box">
+            당신에게는 단 세 번의 기회, 세 번의 생명이 주어집니다.
+          </p>
+          <img class="story-gif" src="3Life.gif" alt="Three Lives Left">
+        </div>
+
+        <div class="story-block">
+          <p class="story-desc">
+            플레이어들의 총기에는 공포탄이 장전되어 있으니, 방아쇠가 당겨져도 놀라지 마십시오.<br>
+            하지만 그 <em>세 번의 기회를 모두 소진</em>한다면 안타깝게도 테이블 위의 처형장치가 가동되어 당신을 사살할 것입니다.
+          </p>
+          <img class="story-gif" src="Dead.gif" alt="Eliminated">
+        </div>
+
+        <div class="story-block">
+          <p class="story-desc">
+            이곳에서 노련한 전술가도, 노련한 도박꾼도 <em>확률 앞에서는 평등</em>합니다.<br>
+            다만 결과 만큼은 부조리할지도 모릅니다.
+          </p>
+          <p class="story-desc" style="font-weight: 500; margin-top: 10px;">
+            건투를 빕니다. 최대한 오래 살아남아, 당신의 플레이를 지켜보는 이들의 기대에 부응하십시오.
+          </p>
+          <img class="story-gif" src="Escape.png" alt="Escape The Facility">
+        </div>
+
+        <div class="story-block">
+          <div class="circus-quote">
+            <p>이곳은 그들을 위한 거대한 서커스 무대이자,</p>
+            <p style="margin-top: 6px; font-weight: 500; color: var(--red-accent);">당신은 그저 광대일 뿐입니다.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <section style="margin-bottom: 40px;">
+        <h2 class="section-title">현재 기능</h2>
+        <div class="grid-layout">
+          <div class="feature-card"><span class="badge-check">멀티</span>최대 4인까지의 온라인 멀티플레이 PvP 지원</div>
+          <div class="feature-card"><span class="badge-check">싱글</span>AI와 겨루는 싱글 플레이 지원</div>
+          <div class="feature-card"><span class="badge-check">가이드</span>게임의 규칙을 이해할 수 있는 튜토리얼 및 도움말 지원</div>
+          <div class="feature-card"><span class="badge-check">룰</span>러시안 룰렛 규칙을 변형한 턴 기반 전투 생존 게임</div>
+          <div class="feature-card"><span class="badge-check">전략</span>카드를 활용한 전략 플레이</div>
+          <div class="feature-card"><span class="badge-check">카드</span>탄약 추가, 방어, 카드 섞기 등 다양한 카드 효과</div>
+          <div class="feature-card"><span class="badge-check">심리</span>심리전과 블러핑 중심의 게임 플레이</div>
+          <div class="feature-card"><span class="badge-check">분위기</span>감시 요원과 건물의 공포스러운 분위기</div>
+          <div class="feature-card"><span class="badge-check">외형</span>다양한 플레이어블 캐릭터 4종</div>
+          <div class="feature-card"><span class="badge-check">사운드</span>긴장감을 강조한 연출과 사운드</div>
+          <div class="feature-card"><span class="badge-check">모드</span>게임을 가속시키는 파이널 룰렛 모드</div>
+          <div class="feature-card"><span class="badge-check">시스템</span>관전자 모드 지원</div>
+          <div class="feature-card"><span class="badge-check">도감</span>카드 효과를 확인할 수 있는 도감</div>
+          <div class="feature-card"><span class="badge-check">데이터</span>플레이 결과를 확인할 수 있는 통계</div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section-title future">추가 고려 중인 기능 <span style="font-size: 13px; font-weight: normal; color: var(--text-muted); margin-left: 6px;">(변동 가능)</span></h2>
+        <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 24px; padding-left: 4px;">더욱 풍성한 게임 경험을 제공하기 위해 다음 기능들을 적극적으로 개발하고 있습니다.</p>
+        <div class="grid-layout">
+          <div class="feature-card"><span class="badge-future">개발</span>일부 오브젝트 커스터마이징 요소</div>
+          <div class="feature-card"><span class="badge-future">개발</span>다양한 퀘스트 및 업적</div>
+          <div class="feature-card"><span class="badge-future">개발</span>퀘스트 혹은 게임 플레이로 획득 가능한 화폐 시스템</div>
+          <div class="feature-card"><span class="badge-future">연동</span>Steam 도전과제 지원</div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">모하지</div>
+    <div class="footer-copy">&copy; 2026 Studio Mohaji. All rights reserved.</div>
+  </footer>
+
+</body>
+</html>
