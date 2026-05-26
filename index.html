@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>모하지 홈</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300;400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 
@@ -20,9 +21,15 @@
       --yellow-soft: #fdf6d8;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       font-family: 'Noto Sans KR', sans-serif;
@@ -32,7 +39,8 @@
       min-height: 100vh;
     }
 
-    /* ── 오른쪽 세로 내비게이션 (hm 삭제 및 정렬 수정) ── */
+    /* ───────── 사이드 네비 ───────── */
+
     .sidenav {
       position: fixed;
       top: 0;
@@ -56,359 +64,31 @@
       width: 48px;
       height: 48px;
       border-radius: 12px;
-      text-decoration: none;
+      overflow: hidden;
       transition: all 0.2s ease;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      overflow: hidden; /* 이미지가 둥근 테두리를 벗어나지 않도록 */
+      text-decoration: none;
     }
 
-    .nav-btn:hover, .nav-btn.active {
+    .nav-btn:hover,
+    .nav-btn.active {
       background: var(--yellow-soft);
       box-shadow: 0 4px 12px rgba(245, 200, 66, 0.2);
     }
 
-    /* 이미지가 버튼 내부를 꽉 채우도록 설정 */
     .nav-btn img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
-    /* ── 메인 콘텐츠 ── */
-    .main {
-      margin-right: var(--nav-w);
-    }
-
-    /* ── 히어로 ── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 80px 80px 80px 80px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-inner {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      gap: 40px;
-      width: 100%;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-text {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .hero-logo-wrap {
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hero-logo-main {
-      width: clamp(240px, 30vw, 420px);
-      border: none;
-      outline: none;
-      display: block;
-      mix-blend-mode: multiply;
-    }
-
-    .hero > *:not(.hero-bg-text):not(.scroll-hint) {
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--yellow-soft);
-      border: 1px solid #e8d88a;
-      border-radius: 100px;
-      padding: 6px 16px;
-      font-size: 13px;
-      color: #7a5f00;
-      font-weight: 500;
-      margin-bottom: 32px;
-      width: fit-content;
-    }
-
-    .hero-tag::before {
-      content: '';
-      width: 8px;
-      height: 8px;
-      background: var(--yellow);
-      border-radius: 50%;
-    }
-
-    .hero h1 {
-      font-family: 'Gmarket Sans', sans-serif;
-      font-size: clamp(56px, 8vw, 100px);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      margin-bottom: 24px;
-    }
-
-    .hero h1 span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.45em;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .hero-sub {
-      font-size: 18px;
-      color: #555;
-      max-width: 480px;
-      margin-bottom: 48px;
-      line-height: 1.8;
-    }
-
-    .hero-notice {
-      display: inline-flex;
-      align-items: flex-start;
-      gap: 12px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--yellow);
-      border-radius: 12px;
-      padding: 16px 20px;
-      font-size: 14px;
-      color: #555;
-      max-width: 480px;
-      line-height: 1.6;
-    }
-
-    .scroll-hint {
-      position: absolute;
-      bottom: 40px;
-      left: 80px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 12px;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    .scroll-line {
-      width: 40px;
-      height: 1px;
-      background: var(--border);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .scroll-line::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: var(--text);
-      animation: slideLine 1.8s ease-in-out infinite;
-    }
-
-    @keyframes slideLine {
-      0% { left: -100%; }
-      100% { left: 100%; }
-    }
-
-    /* ── 섹션 공통 ── */
-    .section {
-      padding: 100px 80px;
-      border-top: 1px solid var(--border);
-    }
-
-    .section-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .section-label::before {
-      content: '';
-      display: inline-block;
-      width: 20px;
-      height: 2px;
-      background: var(--yellow);
-    }
-
-    .section h2 {
-      font-family: 'Gmarket Sans', sans-serif;
-      font-size: clamp(36px, 5vw, 56px);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin-bottom: 40px;
-    }
-
-    /* ── 팀 소개 ── */
-    .intro-block {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: start;
-    }
-
-    .intro-text {
-      font-size: 16px;
-      color: #444;
-      line-height: 2;
-      white-space: pre-line;
-    }
-
-    .intro-highlight {
-      background: var(--yellow-soft);
-      border-radius: 16px;
-      padding: 32px;
-      border: 1px solid #e8d88a;
-    }
-
-    .intro-highlight .quote {
-      font-family: 'Gmarket Sans', sans-serif;
-      font-size: 42px;
-      font-weight: 700;
-      color: #c8a200;
-      line-height: 1;
-      margin-bottom: 12px;
-    }
-
-    .intro-highlight p {
-      font-size: 15px;
-      color: #7a5f00;
-      line-height: 1.8;
-    }
-
-    /* ── 팀원 카드 ── */
-    .members {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 24px;
-      margin-top: 20px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      cursor: default;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 48px rgba(0,0,0,0.08);
-      border-color: #ddd;
-    }
-
-    .card-img-wrap {
-      width: 100%;
-      height: 240px;
-      background: linear-gradient(135deg, #f0ede8 0%, #e8e4dc 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 72px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card-img-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      top: 0; left: 0;
-    }
-
-    .card-content {
-      padding: 20px;
-    }
-
-    .card-name {
-      font-family: 'Gmarket Sans', sans-serif;
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 6px;
-    }
-
-    .card-role {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 10px;
-      line-height: 1.5;
-    }
-
-    .card-email {
-      font-size: 11.5px;
-      color: #aaa;
-      word-break: break-all;
-      padding-top: 10px;
-      border-top: 1px solid var(--border);
-    }
-
-    /* ── 푸터 ── */
-    footer {
-      padding: 48px 80px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-right: 0;
-    }
-
-    .footer-logo {
-      font-family: 'Gmarket Sans', sans-serif;
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .footer-copy {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    /* ── 반응형 ── */
-    @media (max-width: 900px) {
-      .sidenav { display: none; }
-      .main { margin-right: 0; }
-
-      /* 상단 가로 네비 */
-      .mobile-nav {
-        display: flex !important;
-      }
-    }
+    /* ───────── 모바일 네비 ───────── */
 
     .mobile-nav {
       display: none;
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 56px;
       background: rgba(255,255,255,0.95);
       backdrop-filter: blur(10px);
@@ -445,159 +125,335 @@
       color: #7a5f00;
     }
 
+    /* ───────── 메인 ───────── */
+
+    .main {
+      margin-right: var(--nav-w);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px;
+    }
+
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .hero-text {
+      flex: 1;
+    }
+
+    .hero-logo-wrap {
+      flex-shrink: 0;
+    }
+
+    .hero-logo-main {
+      width: clamp(240px, 30vw, 420px);
+      border: none;
+      outline: none;
+      display: block;
+      mix-blend-mode: multiply;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--yellow-soft);
+      border: 1px solid #e8d88a;
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: #7a5f00;
+      margin-bottom: 32px;
+    }
+
+    .hero h1 {
+      font-family: 'Gmarket Sans', sans-serif;
+      font-size: clamp(56px, 8vw, 100px);
+      line-height: 1.05;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.45em;
+      font-weight: 300;
+      margin-bottom: 8px;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: #555;
+      max-width: 480px;
+      margin-bottom: 48px;
+    }
+
+    .hero-notice {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--yellow);
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-size: 14px;
+      color: #555;
+      max-width: 480px;
+    }
+
+    /* ───────── 섹션 ───────── */
+
+    .section {
+      padding: 100px 80px;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .section h2 {
+      font-family: 'Gmarket Sans', sans-serif;
+      font-size: clamp(36px, 5vw, 56px);
+      margin-bottom: 40px;
+    }
+
+    .intro-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+
+    .intro-text {
+      color: #444;
+      line-height: 2;
+      white-space: pre-line;
+    }
+
+    .intro-highlight {
+      background: var(--yellow-soft);
+      border-radius: 16px;
+      padding: 32px;
+      border: 1px solid #e8d88a;
+    }
+
+    .intro-highlight .quote {
+      font-size: 42px;
+      color: #c8a200;
+      margin-bottom: 12px;
+    }
+
+    .members {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(0,0,0,0.08);
+    }
+
+    .card-img-wrap {
+      width: 100%;
+      height: 240px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 72px;
+      background: #f0ede8;
+    }
+
+    .card-img-wrap img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .card-name {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .card-role {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .card-email {
+      font-size: 11px;
+      color: #aaa;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+      word-break: break-all;
+    }
+
+    /* ───────── 푸터 ───────── */
+
+    footer {
+      padding: 48px 80px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ───────── 반응형 ───────── */
+
     @media (max-width: 900px) {
-      .hero { padding: 100px 24px 80px; min-height: auto; padding-top: 80px; }
+
+      .sidenav {
+        display: none;
+      }
+
+      .mobile-nav {
+        display: flex;
+      }
+
+      .main {
+        margin-right: 0;
+      }
+
+      .hero {
+        padding: 100px 24px 80px;
+      }
+
+      .hero-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+
       .hero-logo-main {
-        border: none;
-        outline: none;
-        display: block; width: 160px; margin-top: 28px; margin-bottom: 16px;
-	
-      .section { padding: 60px 24px; }
-      .intro-block { grid-template-columns: 1fr; gap: 32px; }
-      footer { flex-direction: column; gap: 12px; padding: 40px 24px; text-align: center; }
-      .scroll-hint { left: 24px; }
+        width: 180px;
+      }
+
+      .section {
+        padding: 60px 24px;
+      }
+
+      .intro-block {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+        padding: 40px 24px;
+      }
     }
   </style>
 </head>
 
 <body>
 
+  <!-- 모바일 상단 네비 -->
   <nav class="mobile-nav">
     <div class="mobile-nav-logo">모하지</div>
+
     <div class="mobile-nav-links">
-      <a href="/">🏠 홈</a>오후 3:49 2026-05-26
+      <a href="/">🏠 홈</a>
       <a href="/RouletteCircus/">작업물</a>
     </div>
   </nav>
 
+  <!-- 오른쪽 사이드 네비 -->
   <nav class="sidenav">
+
     <a href="/" class="nav-btn active" title="홈">
       <img src="logo.png" alt="홈">
     </a>
 
-    <a href="/RouletteCircus/" class="nav-btn" title="로고">
-      <img src="Rogo512x512.png" alt="로고">
+    <a href="/RouletteCircus/" class="nav-btn" title="Roulette Circus">
+      <img src="Rogo512x512.png" alt="Roulette Circus">
     </a>
+
   </nav>
 
   <div class="main">
 
-    <section class="hero" id="home">
+    <section class="hero">
+
       <div class="hero-inner">
+
         <div class="hero-text">
-          <div class="hero-tag">Studio Mohaji · 2026</div>
+
+          <div class="hero-tag">
+            Studio Mohaji · 2026
+          </div>
+
           <h1>
             <span>What are you doing?</span>
             모하지
           </h1>
-          <p class="hero-sub">잡스런 사람들의 모임.<br>의문에서 시작해 미래를 만들어갑니다.</p>
+
+          <p class="hero-sub">
+            잡스런 사람들의 모임.<br>
+            의문에서 시작해 미래를 만들어갑니다.
+          </p>
+
           <div class="hero-notice">
-            👋 환영합니다 — 당신은 모하지 저주에 걸렸습니다.<br>무엇을 해야할지 고민하게 됩니다!
+            👋 환영합니다 — 당신은 모하지 저주에 걸렸습니다.<br>
+            무엇을 해야할지 고민하게 됩니다!
           </div>
+
         </div>
+
         <div class="hero-logo-wrap">
-          <img class="hero-logo-main" src="logo.png">
-        </div>
-      </div>
-      
-      <div class="scroll-hint">
-        <span>Scroll</span>
-        <div class="scroll-line"></div>
-      </div>
-    </section>
-
-    <section class="section" id="about">
-      <div class="section-label">Who we are</div>
-      <h2>팀 소개</h2>
-      
-      <div class="intro-block">
-        <div class="intro-text">
-          우리는 일상의 작은 의문에서 출발하여 가치 있는 결과물을 만들어내는 팀입니다. 
-          각자의 위치에서 전문성을 발휘하며, 정해진 틀에 얽매이지 않고 끊임없이 도전합니다.
-          
-          "모하지"라는 고민이 단순한 머뭇거림이 아닌, 새로운 창조의 시작점이 될 수 있도록 오늘도 우리는 함께 고민하고 나아갑니다.
-        </div>
-        <div class="intro-highlight">
-          <div class="quote">“</div>
-          <p>해야 할 일들이 쏟아지는 세상 속에서, 진정으로 가치 있고 흥미로운 일을 찾아 움직입니다. 우리의 프로젝트는 언제나 '재미와 본질'을 향해 있습니다.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="members">
-      <div class="section-label">Team Members</div>
-      <h2>멤버 구성원</h2>
-
-      <div class="members">
-
-        <div class="card">
-          <div class="card-img-wrap">
-            👑
-            <img src="member1.png" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-name">정태수</div>
-            <div class="card-role">기획 · 프로그래밍</div>
-            <div class="card-email">jj430077@gmail.com</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-img-wrap">
-            📝
-            <img src="member2.png" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-name">김재학</div>
-            <div class="card-role">보조 기획 · 프로그래밍</div>
-            <div class="card-email">a0108489312@gmail.com</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-img-wrap">
-            🖥️
-            <img src="member3.png" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-name">손성혁</div>
-            <div class="card-role">프로그래밍 · 서버</div>
-            <div class="card-email">tjdgur4001@naver.com</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-img-wrap">
-            🎨
-            <img src="member4.png" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-name">안태성</div>
-            <div class="card-role">그래픽 · 사운드 디자인</div>
-            <div class="card-email">Whitepanic3367@gmail.com</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-img-wrap">
-            ✨
-            <img src="member5.png" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-name">박재형</div>
-            <div class="card-role">그래픽 · 애니메이션 · 이펙트</div>
-            <div class="card-email">aaaww6281@naver.com</div>
-          </div>
+          <img class="hero-logo-main" src="logo.png" alt="모하지 로고">
         </div>
 
       </div>
+
     </section>
 
   </div>
 
   <footer>
     <div class="footer-logo">모하지</div>
-    <div class="footer-copy">&copy; 2026 Studio Mohaji. All rights reserved.</div>
+    <div class="footer-copy">
+      © 2026 Studio Mohaji. All rights reserved.
+    </div>
   </footer>
 
 </body>
