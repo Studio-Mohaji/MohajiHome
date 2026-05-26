@@ -338,6 +338,19 @@
       color: var(--muted);
     }
 
+.footer-copy a {
+  color: var(--muted);            /* 카피라이트와 동일한 색상 */
+  text-decoration: none;          /* 기본 밑줄 제거 */
+  transition: color 0.2s ease;    /* 부드러운 색상 변화 */
+  margin-right: 15px;             /* 요소 간 간격 */
+}
+
+/* 마우스 오버 시 효과 (UI 피드백) */
+.footer-copy a:hover {
+  color: var(--text);             /* 마우스 올리면 약간 더 진한 색으로 변경 */
+  text-decoration: underline;     /* 밑줄을 보여주어 클릭 가능성 강조 */
+}
+
     /* ───────── 반응형 ───────── */
 
     @media (max-width: 900px) {
@@ -551,12 +564,13 @@
 
   </div>
 
-  <footer>
-    <div class="footer-logo">모하지</div>
-    <div class="footer-copy">
-      © 2026 Studio Mohaji. All rights reserved.
-    </div>
-  </footer>
+<footer>
+  <div class="footer-logo">스튜디오 모하지</div>
+  <div class="footer-copy">
+    <a href="https://www.studiomohaji.co.kr/privacy/">개인정보처리방침</a>
+    <span>&copy; 2026 Studio Mohaji. All rights reserved.</span>
+  </div>
+</footer>
 
 </body>
 </html>

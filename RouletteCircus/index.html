@@ -11,7 +11,7 @@
     :root {
       --bg: #ffffff;          /* 다시 깨끗한 흰색 배경 */
       --text: #111111;        /* 어두운 텍스트 */
-      --text-muted: #66666c;  /* 흐린 텍스트 */
+      --muted: #888;  /* 흐린 텍스트 */
       --card-bg: #f9f9f8;     /* 연한 그레이 카드 배경 */
       --border: #e8e8e6;       /* 라이트 모드용 부드러운 보더 라인 */
       --nav-w: 72px;
@@ -35,7 +35,7 @@
       flex-direction: column;
     }
 
-    /* ── 오른쪽 세로 내비게이션 (틀 및 라이트모드 복원) ── */
+    /* ── 오른쪽 세로 내비게이션 ── */
     .sidenav {
       position: fixed;
       top: 0;
@@ -90,7 +90,7 @@
       padding: 60px 24px 100px;
     }
 
-    /* ── 상단 헤더 영역 (RouletteCircus 변경) ── */
+    /* ── 상단 헤더 영역 ── */
     .game-header {
       text-align: center;
       margin-bottom: 60px;
@@ -265,34 +265,52 @@
       margin-top: 2px;
     }
 
-    /* ── 푸터 (틀 및 라이트모드 유지) ── */
+    /* ── 푸터 (1번 스타일 매칭 스펙트럼 적용) ── */
+ 
     footer {
       padding: 48px 80px;
       border-top: 1px solid var(--border);
-      background: #ffffff;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      margin-right: var(--nav-w);
+      align-items: center;
     }
 
     .footer-logo {
-      font-family: 'Gmarket Sans', sans-serif;
       font-size: 20px;
       font-weight: 700;
-      letter-spacing: -0.02em;
     }
 
     .footer-copy {
       font-size: 13px;
-      color: var(--text-muted);
+      color: var(--muted);
     }
+
+/* 푸터 링크 스타일 */
+.footer-copy a {
+  color: var(--muted);            /* 카피라이트와 동일한 색상 */
+  text-decoration: none;          /* 기본 밑줄 제거 */
+  transition: color 0.2s ease;    /* 부드러운 색상 변화 */
+  margin-right: 15px;             /* 요소 간 간격 */
+}
+
+/* 마우스 오버 시 효과 (UI 피드백) */
+.footer-copy a:hover {
+  color: var(--text);             /* 마우스 올리면 약간 더 진한 색으로 변경 */
+  text-decoration: underline;     /* 밑줄을 보여주어 클릭 가능성 강조 */
+}
 
     /* ── 반응형 레이아웃 ── */
     @media (max-width: 900px) {
       .sidenav { display: none; }
       .main { margin-right: 0; }
-      footer { flex-direction: column; gap: 12px; padding: 40px 24px; text-align: center; margin-right: 0; }
+      
+      footer {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+        padding: 40px 24px;
+      }
+      
       .content-container { padding: 40px 20px 60px; }
       .story-flow { gap: 60px; }
       .grid-layout { grid-template-columns: 1fr; }
@@ -348,7 +366,6 @@
 
 <body>
 
-  <!-- 모바일 상단 네비 -->
   <nav class="mobile-nav">
     <div class="mobile-nav-logo">모하지</div>
 
@@ -358,7 +375,6 @@
     </div>
   </nav>
 
-  <!-- 오른쪽 사이드 네비 -->
   <nav class="sidenav">
 
     <a href="/" class="nav-btn active" title="홈">
@@ -474,10 +490,13 @@
     </div>
   </div>
 
-  <footer>
-    <div class="footer-logo">모하지</div>
-    <div class="footer-copy">&copy; 2026 Studio Mohaji. All rights reserved.</div>
-  </footer>
+<footer>
+  <div class="footer-logo">스튜디오 모하지</div>
+  <div class="footer-copy">
+    <a href="https://www.studiomohaji.co.kr/privacy/">개인정보처리방침</a>
+    <span>&copy; 2026 Studio Mohaji. All rights reserved.</span>
+  </div>
+</footer>
 
 </body>
 </html>
